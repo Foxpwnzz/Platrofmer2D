@@ -7,7 +7,10 @@ public class Hero : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpSpeed;
-    [SerializeField] private LayerCheck _groundCheck;
+    [SerializeField] private LayerMask _groundLayer;
+
+    [SerializeField] private float _groundCheckRadius;
+    [SerializeField] private Vector3 _groundCheckPositionDelta;
 
     private Rigidbody2D _rigidbody;
     private Vector2 _direction;
@@ -29,7 +32,7 @@ public class Hero : MonoBehaviour
         var isJumping = _direction.y > 0;
         if (isJumping)
         {
-            if (IsGrounded())
+            if (IsGrounded() && _rigidbody.velocity.y <= 0)
             {
                 _rigidbody.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
             }
@@ -41,7 +44,15 @@ public class Hero : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return _groundCheck.IsTouchingLayer;
+        var hit = Physics2D.CircleCast(transform.position + _groundCheckPositionDelta, _groundCheckRadius,
+            Vector2.down, 0, _groundLayer);
+        return hit.collider != null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = IsGrounded() ? Color.green : Color.red;
+        Gizmos.DrawSphere(transform.position + _groundCheckPositionDelta, _groundCheckRadius);
     }
 
     public void SaySomething()
