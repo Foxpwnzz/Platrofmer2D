@@ -41,18 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Layer0
+  - name: BackGround
     uniqueID: 1051239355
     locked: 0
-  - name: Layer1
+  - name: Environment
     uniqueID: 4067606277
     locked: 0
-  - name: Layer2
+  - name: Interaction
     uniqueID: 1946985859
     locked: 0
-  - name: Layer3
+  - name: Collectibles
+    uniqueID: 4124724323
+    locked: 0
+  - name: Hero
     uniqueID: 3896286103
     locked: 0
-  - name: Layer4
+  - name: TileMap
     uniqueID: 1873537417
     locked: 0
