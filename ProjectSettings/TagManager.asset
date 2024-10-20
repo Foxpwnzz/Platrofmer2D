@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Interactables
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: BackGround
     uniqueID: 1051239355
+    locked: 0
+  - name: TileMapBG
+    uniqueID: 2601883401
     locked: 0
   - name: Environment
     uniqueID: 4067606277
