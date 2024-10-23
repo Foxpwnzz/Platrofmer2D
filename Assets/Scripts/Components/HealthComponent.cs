@@ -10,6 +10,10 @@ namespace Scripts.Components
         [SerializeField] private UnityEvent _onDamage;
         [SerializeField] private UnityEvent _onDie;
 
+        // Геттеры для текущего и максимального здоровья
+        public int CurrentHealth => _health;
+        public int MaxHealth => _maxHealth;
+
         // Метод для нанесения урона
         public void ApplyDamage(int damageValue)
         {

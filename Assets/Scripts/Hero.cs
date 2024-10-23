@@ -18,25 +18,34 @@ namespace Scripts
         [SerializeField] private Vector3 _groundCheckPositionDelta;
         [SerializeField] private float _interactionRadius;
         [SerializeField] private LayerMask _interactionLayer;
+        [SerializeField] private SpawnComponent _footStepParticles;
+        [SerializeField] private SpawnComponent _jumpParticles;
+        [SerializeField] private SpawnComponent _fallParticles; // партикл приземления
+        [SerializeField] private ParticleSystem _hitParticles;
+        [SerializeField] private float _longFallThreshold = -15f; // Порог скорости для долгого прыжка
+
 
         private Collider2D[] _interactionResult = new Collider2D[1];
         private Rigidbody2D _rigidbody;
         private Vector2 _direction;
         private Animator _animator;
-        private SpriteRenderer _sprite;
+
         private bool _isGrounded;
         private bool _allowDoubleJump;
+        private bool _hasDoubleJumped; // Флаг для отслеживания двойного прыжка
+        private float _maxFallSpeed; // Для отслеживания максимальной скорости падения
 
         private static readonly int IsGroundKey = Animator.StringToHash("is-ground");
         private static readonly int VerticalVelocityKey = Animator.StringToHash("vertical-velocity");
         private static readonly int IsRunningKey = Animator.StringToHash("is-running");
         private static readonly int Hit = Animator.StringToHash("hit");
 
+        private int _coins;
+
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
-            _sprite = GetComponent<SpriteRenderer>();
         }
 
         public void SetDirection(Vector2 direction)
@@ -46,7 +55,8 @@ namespace Scripts
 
         private void Update()
         {
-            _isGrounded = IsGrounded();
+            _animator.SetBool(IsRunningKey, _direction.x != 0);
+            _animator.SetFloat(VerticalVelocityKey, _rigidbody.velocity.y);
         }
 
         private void FixedUpdate()
@@ -56,9 +66,34 @@ namespace Scripts
 
             _rigidbody.velocity = new Vector2(xVelocity, yVelocity);
 
+            bool wasGrounded = _isGrounded;
+            _isGrounded = IsGrounded();
+
+            // Отслеживаем максимальную скорость падения
+            if (_rigidbody.velocity.y < _maxFallSpeed)
+            {
+                _maxFallSpeed = _rigidbody.velocity.y;
+            }
+
+            // Проверка на приземление после двойного прыжка или долгого прыжка
+            if (!wasGrounded && _isGrounded)
+            {
+                if (_hasDoubleJumped)
+                {
+                    SpawnFallDust();
+                }
+                else if (_maxFallSpeed <= _longFallThreshold) // Если был долгий прыжок
+                {
+                    SpawnFallDust();
+                }
+
+                // Сбрасываем флаг двойного прыжка и максимальной скорости при приземлении
+                _hasDoubleJumped = false;
+                _allowDoubleJump = true;
+                _maxFallSpeed = 0; // Сбрасываем максимальную скорость
+            }
+
             _animator.SetBool(IsGroundKey, _isGrounded);
-            _animator.SetBool(IsRunningKey, _direction.x != 0);
-            _animator.SetFloat(VerticalVelocityKey, _rigidbody.velocity.y);
 
             UpdateSpriteDirection();
         }
@@ -94,6 +129,7 @@ namespace Scripts
             {
                 yVelocity = _jumpSpeed;
                 _allowDoubleJump = false;
+                _hasDoubleJumped = true; // Устанавливаем флаг двойного прыжка
             }
 
             return yVelocity;
@@ -103,11 +139,11 @@ namespace Scripts
         {
             if (_direction.x > 0)
             {
-                _sprite.flipX = false;
+                transform.localScale = Vector3.one;  
             }
             else if (_direction.x < 0)
             {
-                _sprite.flipX = true;
+                transform.localScale = new Vector3(-1, 1, 1);
             }
         }
 
@@ -129,10 +165,36 @@ namespace Scripts
             Debug.Log("Something!!!");
         }
 
+        public void AddCoins(int coins)
+        {
+            _coins += coins;
+            Debug.Log("Монеты добавлены: " + coins + ". Всего монет: " + _coins);
+        }
         public void TakeDamage()
         {
             _animator.SetTrigger(Hit);
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _damageJumpSpeed);
+            if (_coins > 0)
+            {
+                SpawnCoins();
+            }
+            else
+            {
+                Debug.Log("No coins to spawn!");
+            }
+        }
+
+        private void SpawnCoins()
+        {
+            var numCoinsToDispose = Mathf.Min(_coins, 5);
+            _coins -= numCoinsToDispose;
+
+            var burst = _hitParticles.emission.GetBurst(0);
+            burst.count = numCoinsToDispose;
+            _hitParticles.emission.SetBurst(0, burst);
+
+            _hitParticles.gameObject.SetActive(true);
+            _hitParticles.Play();
         }
 
         public void Ineract()
@@ -151,6 +213,22 @@ namespace Scripts
                     interactable.Interact();
                 }
             }
+        }
+
+        public void SpawnFootDust()
+        {
+            _footStepParticles.Spawn();
+        }
+
+
+        public void SpawnJumpDust()
+        {
+            _jumpParticles.Spawn();
+        }
+
+        public void SpawnFallDust()
+        {
+            _fallParticles.Spawn();
         }
     }
 }

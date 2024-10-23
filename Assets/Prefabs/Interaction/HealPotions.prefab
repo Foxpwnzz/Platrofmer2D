@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5417386388807168903}
   - component: {fileID: 5417386388807169016}
   - component: {fileID: 5417386388807169017}
-  - component: {fileID: 3108403336789113845}
+  - component: {fileID: 8033211585302761998}
   m_Layer: 0
   m_Name: HealPotions
   m_TagString: Untagged
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToDestroy: {fileID: 5417386388807169018}
---- !u!114 &3108403336789113845
+--- !u!114 &8033211585302761998
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,7 +185,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5417386388807169018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6be6b417da47bc4bbb8e1e98eb19571, type: 3}
+  m_Script: {fileID: 11500000, guid: 95e2217c85bb9064889212faeb9ab5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healingAmount: 5
+  _damage: 0
+  _healingAmount: 5
+  _isHealingObject: 1
+  _damageCooldown: 0
