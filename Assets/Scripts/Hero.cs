@@ -29,6 +29,10 @@ namespace Scripts
         private Rigidbody2D _rigidbody;
         private Vector2 _direction;
         private Animator _animator;
+        private Transform _platformTransform; // Ссылка на движущуюся платформу
+        private bool _isOnMovingPlatform; // Флаг, находится ли герой на движущейся платформе
+        private Vector3 _platformPreviousPosition; // Предыдущее положение платформы для расчета смещения
+
 
         private bool _isGrounded;
         private bool _allowDoubleJump;
@@ -64,7 +68,30 @@ namespace Scripts
             var xVelocity = _direction.x * _speed;
             var yVelocity = CalculateYVelocity();
 
-            _rigidbody.velocity = new Vector2(xVelocity, yVelocity);
+            // Если герой стоит на движущейся платформе, добавляем её скорость
+            if (_isOnMovingPlatform && _platformTransform != null)
+            {
+                Vector3 platformMovement = _platformTransform.position - _platformPreviousPosition;
+
+                // Если герой не двигается в сторону, то платформа влияет на его скорость
+                if (_direction.x == 0)
+                {
+                    _rigidbody.velocity = new Vector2(platformMovement.x / Time.fixedDeltaTime, yVelocity);
+                }
+                else
+                {
+                    // Если герой двигается, учитываем только его собственное направление
+                    _rigidbody.velocity = new Vector2(xVelocity, yVelocity);
+                }
+
+                // Обновляем предыдущее положение платформы
+                _platformPreviousPosition = _platformTransform.position;
+            }
+            else
+            {
+                _rigidbody.velocity = new Vector2(xVelocity, yVelocity);
+            }
+
 
             bool wasGrounded = _isGrounded;
             _isGrounded = IsGrounded();
@@ -149,8 +176,21 @@ namespace Scripts
 
         private bool IsGrounded()
         {
-            var hit = Physics2D.CircleCast(transform.position + _groundCheckPositionDelta, _groundCheckRadius,
-                Vector2.down, 0, _groundLayer);
+            var hit = Physics2D.CircleCast(transform.position + _groundCheckPositionDelta, _groundCheckRadius, Vector2.down, 0, _groundLayer);
+            if (hit.collider != null && hit.collider.CompareTag("MovingPlatforms"))
+            {
+                if (!_isOnMovingPlatform)
+                {
+                    _platformPreviousPosition = hit.collider.transform.position; // Устанавливаем начальное положение платформы
+                }
+                _isOnMovingPlatform = true;
+                _platformTransform = hit.collider.transform;
+            }
+            else
+            {
+                _isOnMovingPlatform = false;
+                _platformTransform = null;
+            }
             return hit.collider != null;
         }
 

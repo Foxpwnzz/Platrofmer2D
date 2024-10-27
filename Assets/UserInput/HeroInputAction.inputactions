@@ -56,6 +56,17 @@
                 {
                     "name": "up",
                     "id": "5c5bacd0-0a77-42b8-a2a6-26ef633fbd34",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "453b99bb-7f95-48ad-951e-7d782cae5152",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -111,6 +122,17 @@
                 {
                     "name": "up",
                     "id": "99bca8de-e442-4046-8541-1da10fdf6d57",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "up",
+                    "id": "9f18c4a5-b1bc-4f29-9216-825768da7fa9",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
