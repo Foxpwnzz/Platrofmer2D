@@ -36,5 +36,10 @@ namespace Scripts.Components
                 _health = _maxHealth;  // Ограничиваем здоровье максимумом
             }
         }
+
+        public void AddOnDieListener(UnityAction action)
+        {
+            _onDie.AddListener(action);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,27 +7,28 @@ namespace Scripts
 {
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(Collider2D))]
+
     public class SpriteAnimation : MonoBehaviour
     {
-        [SerializeField] private string _idleAnimationName = "Idle";        // Имя для Idle анимации
-        [SerializeField] private Sprite[] _idleSprites;                     // Спрайты для Idle анимации
-        [SerializeField] private bool _idleLoop = true;                     // Зацикливание Idle анимации
+        [Serializable]
+        public class AnimationEvent
+        {
+            public string Name;                   // Название анимации
+            public Sprite[] Sprites;              // Спрайты для анимации
+            public bool Loop = false;             // Зацикливание анимации
+            public UnityEvent onComplete;         // Событие по завершению анимации
+        }
 
-        [SerializeField] private string _eventsAnimationName;               // Имя для Events анимации
-        [SerializeField] private Sprite[] _eventsSprites;                   // Спрайты для Events анимации
-        [SerializeField] private bool _eventsLoop = false;                  // Зацикливание Events анимации
-
-        [SerializeField] private int _frameRate = 10;                       // Количество кадров в секунду
-        [SerializeField] private UnityEvent _onComplete;                    // Событие по завершению анимации
+        [SerializeField] private List<AnimationEvent> _animationEvents;    // Список всех анимаций
+        [SerializeField] private string _triggerAnimationName;
+        [SerializeField] private int _frameRate = 10;                      // Кадры в секунду
 
         private SpriteRenderer _renderer;
         private float _secondPerFrame;
         private int _currentSpriteIndex;
         private float _nextFrameTime;
 
-        private string _currentAnimationName;
-        private Sprite[] _currentSprites;
-        private bool _currentLoop;
+        private AnimationEvent _currentEvent;
         private bool _isPlaying = true;
 
         private void Start()
@@ -35,55 +37,49 @@ namespace Scripts
             _secondPerFrame = 1f / _frameRate;
 
             // Начинаем с анимации Idle
-            SetClip(_idleAnimationName);
+            if (_animationEvents.Count > 0)
+            {
+                SetClip(_animationEvents[0].Name);
+            }
         }
 
         private void Update()
         {
             if (!_isPlaying || _nextFrameTime > Time.time) return;
 
-            if (_currentSpriteIndex >= _currentSprites.Length)
+            if (_currentSpriteIndex >= _currentEvent.Sprites.Length)
             {
-                if (_currentLoop)
+                if (_currentEvent.Loop)
                 {
                     _currentSpriteIndex = 0;  // Зацикливаем
                 }
                 else
                 {
-                    _isPlaying = false;
-                    _onComplete?.Invoke();  // Вызываем событие по завершению
+                    enabled = _isPlaying = false;
+                    _currentEvent.onComplete?.Invoke();  // Вызываем событие завершения для текущей анимации
                     return;
                 }
             }
 
-            _renderer.sprite = _currentSprites[_currentSpriteIndex];
+            _renderer.sprite = _currentEvent.Sprites[_currentSpriteIndex];
             _nextFrameTime += _secondPerFrame;
             _currentSpriteIndex++;
         }
 
         public void SetClip(string name)
         {
-            if (name == _idleAnimationName)
+            _currentEvent = _animationEvents.Find(eventData => eventData.Name == name);
+
+            if (_currentEvent != null)
             {
-                _currentAnimationName = _idleAnimationName;
-                _currentSprites = _idleSprites;
-                _currentLoop = _idleLoop;
-            }
-            else if (name == _eventsAnimationName)
-            {
-                _currentAnimationName = _eventsAnimationName;
-                _currentSprites = _eventsSprites;
-                _currentLoop = _eventsLoop;
+                _currentSpriteIndex = 0;
+                enabled = _isPlaying = true;
+                _nextFrameTime = Time.time + _secondPerFrame;
             }
             else
             {
                 Debug.LogWarning($"Анимация с именем {name} не найдена!");
-                return;
             }
-
-            _currentSpriteIndex = 0;
-            _isPlaying = true;
-            _nextFrameTime = Time.time + _secondPerFrame;
         }
 
         // Обработка столкновения с игроком
@@ -91,7 +87,7 @@ namespace Scripts
         {
             if (other.CompareTag("Player")) // Проверяем, что столкновение произошло с игроком
             {
-                SetClip(_eventsAnimationName); // Переключаем анимацию из события
+                SetClip(_triggerAnimationName); // Переключаем на анимацию, указанную в инспекторе
             }
         }
     }

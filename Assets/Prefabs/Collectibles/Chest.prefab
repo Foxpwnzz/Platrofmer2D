@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5646679029807793027}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 38.978, y: 10.532, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -122,37 +122,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleAnimationName: Idle
-  _idleSprites:
-  - {fileID: 21300000, guid: 0413249e8abcc17448b36e9d642ab759, type: 3}
-  - {fileID: 21300000, guid: 5790b490867b00d4e862c53c9d3bdcc2, type: 3}
-  - {fileID: 21300000, guid: cd0aea80c505cc649b2a15f66205c9b2, type: 3}
-  _idleLoop: 1
-  _eventsAnimationName: 
-  _eventsSprites:
-  - {fileID: 21300000, guid: fbe97185ad5acf444b09d605124b61fc, type: 3}
-  - {fileID: 21300000, guid: 6049eb02e9c791e4da83a83f0c30c6fe, type: 3}
-  - {fileID: 21300000, guid: 8f6737df04a7b1f488636ab4c1e2c889, type: 3}
-  - {fileID: 21300000, guid: 615257fd46a8f1243afb8b61f3d854fe, type: 3}
-  - {fileID: 21300000, guid: 7b8acd65b10594d4c9205645653ad72a, type: 3}
-  - {fileID: 21300000, guid: a850a8c34b0ba0d42a121755604a371a, type: 3}
-  - {fileID: 21300000, guid: a616f39ac8d5b7e4ebfd8e2bccfd3436, type: 3}
-  _eventsLoop: 0
+  _animationEvents:
+  - Name: Idle
+    Sprites:
+    - {fileID: 21300000, guid: 0413249e8abcc17448b36e9d642ab759, type: 3}
+    - {fileID: 21300000, guid: 5790b490867b00d4e862c53c9d3bdcc2, type: 3}
+    - {fileID: 21300000, guid: cd0aea80c505cc649b2a15f66205c9b2, type: 3}
+    Loop: 1
+    onComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - Name: Event
+    Sprites:
+    - {fileID: 21300000, guid: fbe97185ad5acf444b09d605124b61fc, type: 3}
+    - {fileID: 21300000, guid: 6049eb02e9c791e4da83a83f0c30c6fe, type: 3}
+    - {fileID: 21300000, guid: 8f6737df04a7b1f488636ab4c1e2c889, type: 3}
+    - {fileID: 21300000, guid: 615257fd46a8f1243afb8b61f3d854fe, type: 3}
+    - {fileID: 21300000, guid: 7b8acd65b10594d4c9205645653ad72a, type: 3}
+    - {fileID: 21300000, guid: a850a8c34b0ba0d42a121755604a371a, type: 3}
+    - {fileID: 21300000, guid: a616f39ac8d5b7e4ebfd8e2bccfd3436, type: 3}
+    Loop: 0
+    onComplete:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -1494274287340444063, guid: a31ec05f5cc44ae41a5002373a3888a8,
+            type: 3}
+          m_MethodName: Reload
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  _triggerAnimationName: Event
   _frameRate: 10
-  _onComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5646679029807793053}
-        m_MethodName: Reload
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &5646679029807793053
 MonoBehaviour:
   m_ObjectHideFlags: 0

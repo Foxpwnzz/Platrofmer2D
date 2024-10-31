@@ -1,7 +1,9 @@
 ﻿using Scripts.Components;
+using Scripts.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.UIElements;
 using UnityEngine;
 
@@ -13,17 +15,22 @@ namespace Scripts
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpSpeed;
         [SerializeField] private float _damageJumpSpeed;
+        [SerializeField] private int _damage;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private float _groundCheckRadius;
         [SerializeField] private Vector3 _groundCheckPositionDelta;
         [SerializeField] private float _interactionRadius;
         [SerializeField] private LayerMask _interactionLayer;
+        [SerializeField] private float _longFallThreshold = -15f; // Порог скорости для долгого прыжка
+        [SerializeField] private AnimatorController _armed;
+        [SerializeField] private AnimatorController _disarmed;
+        [SerializeField] private CheckCircleOverlap _attackRange;
+
+        [Space] [Header("Particles")]
         [SerializeField] private SpawnComponent _footStepParticles;
         [SerializeField] private SpawnComponent _jumpParticles;
         [SerializeField] private SpawnComponent _fallParticles; // партикл приземления
         [SerializeField] private ParticleSystem _hitParticles;
-        [SerializeField] private float _longFallThreshold = -15f; // Порог скорости для долгого прыжка
-
 
         private Collider2D[] _interactionResult = new Collider2D[1];
         private Rigidbody2D _rigidbody;
@@ -43,8 +50,10 @@ namespace Scripts
         private static readonly int VerticalVelocityKey = Animator.StringToHash("vertical-velocity");
         private static readonly int IsRunningKey = Animator.StringToHash("is-running");
         private static readonly int Hit = Animator.StringToHash("hit");
+        private static readonly int AttackKey = Animator.StringToHash("attack");
 
         private int _coins;
+        private bool _isArmed;
 
         private void Awake()
         {
@@ -193,12 +202,13 @@ namespace Scripts
             }
             return hit.collider != null;
         }
-
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Gizmos.color = IsGrounded() ? Color.green : Color.red;
-            Gizmos.DrawSphere(transform.position + _groundCheckPositionDelta, _groundCheckRadius);
+            Handles.color = IsGrounded() ? HandlesUtils.TransparentGreen : HandlesUtils.TransparentRed;
+            Handles.DrawSolidDisc(transform.position + _groundCheckPositionDelta, Vector3.forward, _groundCheckRadius);
         }
+#endif
 
         public void SaySomething()
         {
@@ -253,6 +263,34 @@ namespace Scripts
                     interactable.Interact();
                 }
             }
+        }
+
+        public void Attack()
+        {
+            if (!_isArmed)
+            {
+                return;
+            }
+            _animator.SetTrigger(AttackKey);
+        }
+
+        public void OnAttacking()
+        {
+            var gos = _attackRange.GetObjectsInRange();
+            foreach (var go in gos)
+            {
+                var hp = go.GetComponent<HealthComponent>();
+                if (hp != null && go.CompareTag("Enemy"))
+                {
+                    hp.ApplyDamage(_damage);
+                }
+            }
+        }
+
+        public void ArmHero()
+        {
+            _isArmed = true;
+            _animator.runtimeAnimatorController = _armed;
         }
 
         public void SpawnFootDust()

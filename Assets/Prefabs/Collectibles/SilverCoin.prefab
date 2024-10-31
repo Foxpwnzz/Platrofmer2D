@@ -142,35 +142,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleAnimationName: Idle
-  _idleSprites:
-  - {fileID: -2322180950842035098, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  - {fileID: -4893972260818282012, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  - {fileID: -6323751108524238166, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  - {fileID: 2722280177590742205, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  _idleLoop: 1
-  _eventsAnimationName: Events
-  _eventsSprites:
-  - {fileID: -4986890610287934012, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  - {fileID: 6143208460787649835, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  - {fileID: 7609282858266732271, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  - {fileID: -6288512792030432889, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-  _eventsLoop: 0
+  _animationEvents:
+  - Name: Idle
+    Sprites:
+    - {fileID: -2322180950842035098, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    - {fileID: -4893972260818282012, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    - {fileID: -6323751108524238166, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    - {fileID: 2722280177590742205, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    Loop: 1
+    onComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - Name: Destroy
+    Sprites:
+    - {fileID: -4986890610287934012, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    - {fileID: 6143208460787649835, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    - {fileID: 7609282858266732271, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    - {fileID: -6288512792030432889, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
+    Loop: 0
+    onComplete:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4728745999303932776}
+          m_MethodName: DestroyObject
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  _triggerAnimationName: Destroy
   _frameRate: 10
-  _onComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4728745999303932776}
-        m_MethodName: DestroyObject
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &4728745999303932776
 MonoBehaviour:
   m_ObjectHideFlags: 0

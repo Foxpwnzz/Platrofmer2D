@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -227361019
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7515456911145536941, guid: 45aa87665a6052e44988942dc24118b2,
     type: 3}
@@ -95,20 +95,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleAnimationName: Idle
-  _idleSprites:
-  - {fileID: 7515456911145536941, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: 8188337825271032076, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: -6232402627841558155, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: -1922304144749363281, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: 146961160014910225, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: -4666071756097916248, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: -6726507372564969465, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  - {fileID: 6451580281456240679, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-  _idleLoop: 1
-  _eventsAnimationName: 
-  _eventsSprites: []
-  _eventsLoop: 0
+  _animationEvents:
+  - Name: Idle
+    Sprites:
+    - {fileID: 7515456911145536941, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: 8188337825271032076, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: -6232402627841558155, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: -1922304144749363281, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: 146961160014910225, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: -4666071756097916248, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: -6726507372564969465, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    - {fileID: 6451580281456240679, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
+    Loop: 1
   _frameRate: 10
   _onComplete:
     m_PersistentCalls:

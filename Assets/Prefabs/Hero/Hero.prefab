@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1935320288}
   - component: {fileID: 1935320289}
   m_Layer: 0
-  m_Name: FootStepPosition
+  m_Name: FootStepSpawnPosition
   m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 6045556520342190277}
   - component: {fileID: 2915572693050219067}
   m_Layer: 0
-  m_Name: JumpPosition
+  m_Name: JumpSpawnPosition
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -104,10 +104,10 @@ GameObject:
   - component: {fileID: 2915572692677139405}
   - component: {fileID: 2915572692677139404}
   - component: {fileID: 2915572693050219066}
+  - component: {fileID: -1494274287340444063}
   - component: {fileID: 2915572692677139402}
   - component: {fileID: 2915572692677139403}
   - component: {fileID: 2915572692677139400}
-  - component: {fileID: -1494274287340444063}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -129,6 +129,7 @@ Transform:
   - {fileID: 1935320288}
   - {fileID: 6045556520342190277}
   - {fileID: 5989141017145068405}
+  - {fileID: 1103301620616519654}
   - {fileID: 1940825443720409151}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -212,6 +213,7 @@ MonoBehaviour:
   _speed: 4
   _jumpSpeed: 12
   _damageJumpSpeed: 60
+  _damage: 2
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -221,11 +223,14 @@ MonoBehaviour:
   _interactionLayer:
     serializedVersion: 2
     m_Bits: 512
+  _longFallThreshold: -15
+  _armed: {fileID: 9100000, guid: af97c50e2eea1154bb4e644ee70bff2d, type: 2}
+  _disarmed: {fileID: 9100000, guid: 5f6f498ea73cdf943a0d42db1b267c43, type: 2}
+  _attackRange: {fileID: 2915572693050219065}
   _footStepParticles: {fileID: 1935320289}
   _jumpParticles: {fileID: 2915572693050219067}
   _fallParticles: {fileID: 5270506862423433483}
   _hitParticles: {fileID: 8844077875664789913}
-  _longFallThreshold: -15
 --- !u!114 &2915572692677139404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +302,21 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f53b8d2f-cb0a-4267-8791-08f57e967006
     m_ActionName: Hero/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2915572692677139406}
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ebac31bb-af86-455b-89c1-324b556710ee
+    m_ActionName: Hero/Attack[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Hero
@@ -344,6 +364,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-1494274287340444063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915572692677139393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcc24a059e2cac44afc095862f98ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &2915572692677139402
 Rigidbody2D:
   serializedVersion: 4
@@ -400,18 +432,50 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-1494274287340444063
+--- !u!1 &4070261965464636266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1103301620616519654}
+  - component: {fileID: 2915572693050219065}
+  m_Layer: 0
+  m_Name: AttackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1103301620616519654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4070261965464636266}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2915572692677139407}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2915572693050219065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2915572692677139393}
+  m_GameObject: {fileID: 4070261965464636266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afcc24a059e2cac44afc095862f98ccc, type: 3}
+  m_Script: {fileID: 11500000, guid: e2e75b469f6c8714d9e7d7bb4e0cf3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 0.2
 --- !u!1 &6992839556887919891
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +488,7 @@ GameObject:
   - component: {fileID: 8844077875664789913}
   - component: {fileID: 3709784573248728178}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +506,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2915572692677139407}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &8844077875664789913
 ParticleSystem:
@@ -5235,9 +5299,9 @@ GameObject:
   - component: {fileID: 5989141017145068405}
   - component: {fileID: 5270506862423433483}
   m_Layer: 0
-  m_Name: FallPosition
+  m_Name: FallSpawnPosition
   m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

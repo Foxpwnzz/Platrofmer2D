@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -227361019
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2645899244835350471, guid: 8b6821f9f15ca5744819c6d540ea0efc,
     type: 3}
@@ -95,16 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleAnimationName: Idle
-  _idleSprites:
-  - {fileID: -2645899244835350471, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
-  - {fileID: -6487789065682943626, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
-  - {fileID: 1981876992937066421, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
-  - {fileID: 7744047822205964645, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
-  _idleLoop: 1
-  _eventsAnimationName: 
-  _eventsSprites: []
-  _eventsLoop: 0
+  _animationEvents:
+  - Name: Idle
+    Sprites:
+    - {fileID: -2645899244835350471, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
+    - {fileID: -6487789065682943626, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
+    - {fileID: 1981876992937066421, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
+    - {fileID: 7744047822205964645, guid: 8b6821f9f15ca5744819c6d540ea0efc, type: 3}
+    Loop: 1
   _frameRate: 10
   _onComplete:
     m_PersistentCalls:
