@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Scripts.Components
@@ -9,15 +10,17 @@ namespace Scripts.Components
         [SerializeField] private int _maxHealth;     // Максимальное количество здоровья
         [SerializeField] private UnityEvent _onDamage;
         [SerializeField] private UnityEvent _onDie;
+        [SerializeField] private HealthChangeEvent _onChange;
 
         // Геттеры для текущего и максимального здоровья
-        public int CurrentHealth => _health;
+        public int Health => _health;
         public int MaxHealth => _maxHealth;
 
         // Метод для нанесения урона
         public void ApplyDamage(int damageValue)
         {
             _health -= damageValue;
+            _onChange?.Invoke(_health);
 
             _onDamage?.Invoke();
 
@@ -31,6 +34,8 @@ namespace Scripts.Components
         public void Heal(int healingAmount)
         {
             _health += healingAmount;
+            _onChange?.Invoke(_health);
+
             if (_health > _maxHealth)
             {
                 _health = _maxHealth;  // Ограничиваем здоровье максимумом
@@ -41,5 +46,17 @@ namespace Scripts.Components
         {
             _onDie.AddListener(action);
         }
+
+
+        public void SetHealth(int health)
+        {
+            _health = health;
+        }
+
+        [Serializable]
+        public class HealthChangeEvent : UnityEvent<int>
+        {
+
+        }
     }
-}
+} 

@@ -1,4 +1,5 @@
 ﻿using Scripts.Components;
+using Scripts.Model;
 using Scripts.Utils;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,13 +53,29 @@ namespace Scripts
         private static readonly int Hit = Animator.StringToHash("hit");
         private static readonly int AttackKey = Animator.StringToHash("attack");
 
-        private int _coins;
-        private bool _isArmed;
+        //private int _coins;
+        //private bool _isArmed;
+
+        private GameSession _session; 
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+        }
+         
+        private void Start()
+        {
+            _session = FindObjectOfType<GameSession>();
+            var health = GetComponent<HealthComponent>();
+
+            health.SetHealth(_session.Data.Hp);
+            UpdateHeroWeapon();
+        }
+
+        public void OnHealthChanged(int currentHealth)
+        {
+            _session.Data.Hp = currentHealth;
         }
 
         public void SetDirection(Vector2 direction)
@@ -217,14 +234,14 @@ namespace Scripts
 
         public void AddCoins(int coins)
         {
-            _coins += coins;
-            Debug.Log("Монеты добавлены: " + coins + ". Всего монет: " + _coins);
+            _session.Data.Coins += coins;
+            Debug.Log("Монеты добавлены: " + coins + ". Всего монет: " + _session.Data.Coins);
         }
         public void TakeDamage()
         {
             _animator.SetTrigger(Hit);
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _damageJumpSpeed);
-            if (_coins > 0)
+            if (_session.Data.Coins > 0)
             {
                 SpawnCoins();
             }
@@ -236,8 +253,8 @@ namespace Scripts
 
         private void SpawnCoins()
         {
-            var numCoinsToDispose = Mathf.Min(_coins, 5);
-            _coins -= numCoinsToDispose;
+            var numCoinsToDispose = Mathf.Min(_session.Data.Coins, 5);
+            _session.Data.Coins -= numCoinsToDispose;
 
             var burst = _hitParticles.emission.GetBurst(0);
             burst.count = numCoinsToDispose;
@@ -267,7 +284,7 @@ namespace Scripts
 
         public void Attack()
         {
-            if (!_isArmed)
+            if (!_session.Data.IsArmed)
             {
                 return;
             }
@@ -289,8 +306,14 @@ namespace Scripts
 
         public void ArmHero()
         {
-            _isArmed = true;
+            _session.Data.IsArmed = true;
+            UpdateHeroWeapon();
             _animator.runtimeAnimatorController = _armed;
+        }
+
+        private void UpdateHeroWeapon()
+        {
+            _animator.runtimeAnimatorController = _session.Data.IsArmed ? _armed : _disarmed;
         }
 
         public void SpawnFootDust()

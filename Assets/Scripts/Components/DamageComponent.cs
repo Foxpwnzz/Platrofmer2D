@@ -36,7 +36,7 @@ namespace Scripts.Components
                 if (healthComponent != null)
                 {
                     healthComponent.ApplyDamage(_damage);
-                    Debug.Log($"Урон от spikes: текущие жизни {healthComponent.CurrentHealth}/{healthComponent.MaxHealth}");
+                    Debug.Log($"Урон от spikes: текущие жизни {healthComponent.Health}/{healthComponent.MaxHealth}");
                     _lastDamageTime = Time.time; // Обновляем время последнего нанесенного урона
                 }
             }
@@ -49,7 +49,7 @@ namespace Scripts.Components
             if (healthComponent != null)
             {
                 healthComponent.Heal(_healingAmount);
-                Debug.Log($"Лечение от heal potion: текущие жизни {healthComponent.CurrentHealth}/{healthComponent.MaxHealth}");
+                Debug.Log($"Лечение от heal potion: текущие жизни {healthComponent.Health}/{healthComponent.MaxHealth}");
             }
         }
     }
