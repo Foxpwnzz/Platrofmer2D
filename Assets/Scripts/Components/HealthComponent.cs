@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,23 +7,40 @@ namespace Scripts.Components
 {
     public class HealthComponent : MonoBehaviour
     {
-        [SerializeField] private int _health;        // Текущее количество здоровья
-        [SerializeField] private int _maxHealth;     // Максимальное количество здоровья
+        [SerializeField] private int _health;
+        [SerializeField] private int _maxHp; // Максимального здоровья
+        [SerializeField] private float _invulnerability = 1.0f; // Время неуязвимости
         [SerializeField] private UnityEvent _onDamage;
+        [SerializeField] private UnityEvent _onHeal;
         [SerializeField] private UnityEvent _onDie;
-        [SerializeField] private HealthChangeEvent _onChange;
 
-        // Геттеры для текущего и максимального здоровья
-        public int Health => _health;
-        public int MaxHealth => _maxHealth;
+        private bool _isInvulnerable;
 
-        // Метод для нанесения урона
-        public void ApplyDamage(int damageValue)
+        public int MaxHp
         {
-            _health -= damageValue;
-            _onChange?.Invoke(_health);
+            get => _maxHp;
+            set
+            {
+                _maxHp = value;
+                _health = Mathf.Clamp(_health, 0, _maxHp); // Обновляем текущее здоровье в пределах нового максимума
+            }
+        }
 
-            _onDamage?.Invoke();
+        public void ModifyHealth(int healthDelta)
+        {
+            if (_isInvulnerable && healthDelta < 0) return;
+            _health = Mathf.Clamp(_health + healthDelta, 0, _maxHp); // Ограничиваем текущее здоровье
+
+            if (healthDelta < 0)
+            {
+                _onDamage?.Invoke();
+                StartInvulnerability(); // Запускаем неуязвимость
+            }
+
+            if (healthDelta > 0)
+            {
+                _onHeal?.Invoke();
+            }
 
             if (_health <= 0)
             {
@@ -30,33 +48,24 @@ namespace Scripts.Components
             }
         }
 
-        // Метод для лечения
-        public void Heal(int healingAmount)
+        private void StartInvulnerability()
         {
-            _health += healingAmount;
-            _onChange?.Invoke(_health);
-
-            if (_health > _maxHealth)
+            if (_invulnerability > 0)
             {
-                _health = _maxHealth;  // Ограничиваем здоровье максимумом
+                _isInvulnerable = true;
+                StartCoroutine(InvulnerabilityCoroutine());
             }
+        }
+
+        private IEnumerator InvulnerabilityCoroutine()
+        {
+            yield return new WaitForSeconds(_invulnerability);
+            _isInvulnerable = false;
         }
 
         public void AddOnDieListener(UnityAction action)
         {
             _onDie.AddListener(action);
-        }
-
-
-        public void SetHealth(int health)
-        {
-            _health = health;
-        }
-
-        [Serializable]
-        public class HealthChangeEvent : UnityEvent<int>
-        {
-
         }
     }
 } 

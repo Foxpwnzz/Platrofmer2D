@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using Scripts.Creatures;
 
 namespace Scripts
 {
@@ -16,19 +15,11 @@ namespace Scripts
             _hero.SetDirection(direction);
         }
 
-        public void OnSaySomething(InputAction.CallbackContext context)
-        {
-            if (context.canceled)
-            {
-                _hero.SaySomething();
-            }
-        }
-
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (context.canceled)
             {
-                _hero.Ineract();
+                _hero.Interact();
             }
         }
 

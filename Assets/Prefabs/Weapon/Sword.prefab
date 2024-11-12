@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142716961798730305}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -30, y: -0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -124,9 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationEvents:
-  - Name: Idle
-    Sprites:
+  _frameRate: 10
+  _clips:
+  - _name: Idle
+    _sprite:
     - {fileID: 21300000, guid: f0469fdd678d7c547b480bb3f09b876a, type: 3}
     - {fileID: 21300000, guid: c692ed106cb329343b4105850e70f903, type: 3}
     - {fileID: 21300000, guid: 3a3caf9f73df3334d859ae168e2b8bfd, type: 3}
@@ -135,12 +136,11 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 7a29cf6482932a34c9d02529f1e0e65d, type: 3}
     - {fileID: 21300000, guid: ff86b11c766ebb34b870e24fc9f2a5d7, type: 3}
     - {fileID: 21300000, guid: 67faa334ad3106a4d9d2a16091e637a5, type: 3}
-    Loop: 1
-    onComplete:
+    _loop: 1
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls: []
-  _triggerAnimationName: Idle
-  _frameRate: 10
 --- !u!114 &2142716961798730310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +157,17 @@ MonoBehaviour:
   _action:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2142716961798730305}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2142716961798730311}
         m_MethodName: ArmHero
         m_Mode: 0

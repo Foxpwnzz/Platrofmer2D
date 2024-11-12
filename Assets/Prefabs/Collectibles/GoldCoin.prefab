@@ -119,6 +119,17 @@ MonoBehaviour:
   _action:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 8325241616703608822}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: -3412250406480505972}
         m_MethodName: Add
         m_Mode: 1
@@ -127,7 +138,18 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Destroy
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: -8708726053897544782}
+        m_MethodName: SetClip
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Destroy
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &-8708726053897544782
@@ -142,25 +164,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationEvents:
-  - Name: Idle
-    Sprites:
+  _frameRate: 10
+  _clips:
+  - _name: Idle
+    _sprite:
     - {fileID: 6582046967323461550, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
     - {fileID: 1942777921290549423, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
     - {fileID: 8793606821965667882, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
     - {fileID: 3444832735345940322, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-    Loop: 1
-    onComplete:
+    _loop: 1
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls: []
-  - Name: Destroy
-    Sprites:
+  - _name: Destroy
+    _sprite:
     - {fileID: -4986890610287934012, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
     - {fileID: 6143208460787649835, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
     - {fileID: 7609282858266732271, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
     - {fileID: -6288512792030432889, guid: 0c853ae8652776c4b8569ef3bea6dff3, type: 3}
-    Loop: 0
-    onComplete:
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 8325241616703608825}
@@ -174,8 +199,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  _triggerAnimationName: Destroy
-  _frameRate: 10
 --- !u!114 &8325241616703608825
 MonoBehaviour:
   m_ObjectHideFlags: 0

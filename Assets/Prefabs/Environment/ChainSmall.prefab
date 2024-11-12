@@ -95,9 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationEvents:
-  - Name: Idle
-    Sprites:
+  _frameRate: 10
+  _clips:
+  - _name: Idle
+    _sprite:
     - {fileID: 7515456911145536941, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
     - {fileID: 8188337825271032076, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
     - {fileID: -6232402627841558155, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
@@ -106,8 +107,8 @@ MonoBehaviour:
     - {fileID: -4666071756097916248, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
     - {fileID: -6726507372564969465, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
     - {fileID: 6451580281456240679, guid: 45aa87665a6052e44988942dc24118b2, type: 3}
-    Loop: 1
-  _frameRate: 10
-  _onComplete:
-    m_PersistentCalls:
-      m_Calls: []
+    _loop: 0
+    _allowNextClip: 1
+    _onComplete:
+      m_PersistentCalls:
+        m_Calls: []

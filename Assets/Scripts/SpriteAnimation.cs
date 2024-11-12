@@ -1,94 +1,116 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Scripts
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    [RequireComponent(typeof(Collider2D))]
-
     public class SpriteAnimation : MonoBehaviour
     {
-        [Serializable]
-        public class AnimationEvent
-        {
-            public string Name;                   // Название анимации
-            public Sprite[] Sprites;              // Спрайты для анимации
-            public bool Loop = false;             // Зацикливание анимации
-            public UnityEvent onComplete;         // Событие по завершению анимации
-        }
-
-        [SerializeField] private List<AnimationEvent> _animationEvents;    // Список всех анимаций
-        [SerializeField] private string _triggerAnimationName;
-        [SerializeField] private int _frameRate = 10;                      // Кадры в секунду
+        [SerializeField] [Range(1, 30)] private int _frameRate = 10;
+        [SerializeField] private UnityEvent<string> _onComplete;
+        [SerializeField] private AnimationClip[] _clips;
 
         private SpriteRenderer _renderer;
-        private float _secondPerFrame;
-        private int _currentSpriteIndex;
-        private float _nextFrameTime;
 
-        private AnimationEvent _currentEvent;
+        private float _secPerFrame;
+        private float _nextFrameTime;
+        private int _currentFrame;
         private bool _isPlaying = true;
+
+        private int _currentClip;
 
         private void Start()
         {
             _renderer = GetComponent<SpriteRenderer>();
-            _secondPerFrame = 1f / _frameRate;
+            _secPerFrame = 1f / _frameRate;
 
-            // Начинаем с анимации Idle
-            if (_animationEvents.Count > 0)
-            {
-                SetClip(_animationEvents[0].Name);
-            }
+            StartAnimation();
         }
 
-        private void Update()
+        private void OnBecameVisible()
         {
-            if (!_isPlaying || _nextFrameTime > Time.time) return;
+            enabled = _isPlaying;
+        }
 
-            if (_currentSpriteIndex >= _currentEvent.Sprites.Length)
+        private void OnBecameInvisible()
+        {
+            enabled = false;
+        }
+
+        public void SetClip(string clipName)
+        {
+            for (var i = 0; i < _clips.Length; i++)
             {
-                if (_currentEvent.Loop)
+                if (_clips[i].Name == clipName)
                 {
-                    _currentSpriteIndex = 0;  // Зацикливаем
-                }
-                else
-                {
-                    enabled = _isPlaying = false;
-                    _currentEvent.onComplete?.Invoke();  // Вызываем событие завершения для текущей анимации
+                    _currentClip = i;
+                    StartAnimation();
                     return;
                 }
             }
 
-            _renderer.sprite = _currentEvent.Sprites[_currentSpriteIndex];
-            _nextFrameTime += _secondPerFrame;
-            _currentSpriteIndex++;
+            enabled = _isPlaying = false;   
         }
 
-        public void SetClip(string name)
+        private void StartAnimation()
         {
-            _currentEvent = _animationEvents.Find(eventData => eventData.Name == name);
-
-            if (_currentEvent != null)
-            {
-                _currentSpriteIndex = 0;
-                enabled = _isPlaying = true;
-                _nextFrameTime = Time.time + _secondPerFrame;
-            }
-            else
-            {
-                Debug.LogWarning($"Анимация с именем {name} не найдена!");
-            }
+            _nextFrameTime = Time.time + _secPerFrame;
+            enabled = _isPlaying = true;
+            _currentFrame = 0;
         }
 
-        // Обработка столкновения с игроком
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnEnable()
         {
-            if (other.CompareTag("Player")) // Проверяем, что столкновение произошло с игроком
-            {
-                SetClip(_triggerAnimationName); // Переключаем на анимацию, указанную в инспекторе
-            }
+            _nextFrameTime = Time.time + _secPerFrame;
         }
+
+        private void Update()
+        {
+            if (_nextFrameTime > Time.time) return;
+
+            var clip = _clips[_currentClip];
+            if (_currentFrame >= clip.Sprites.Length)
+            {
+                if (clip.Loop)
+                {
+                    _currentFrame = 0;
+                }
+                else
+                {
+                    enabled = _isPlaying = clip.AllowNextClip;
+                    clip.OnComplete?.Invoke();
+                    _onComplete?.Invoke(clip.Name);
+                    if (clip.AllowNextClip)
+                    {
+                        _currentFrame = 0;
+                        _currentClip = (int)Mathf.Repeat(_currentClip + 1, _clips.Length);
+                    }
+                }
+
+                return;
+            }
+
+            _renderer.sprite = clip.Sprites[_currentFrame];
+
+            _nextFrameTime += _secPerFrame;
+            _currentFrame++;
+        }
+    }
+
+    [Serializable]
+    public class AnimationClip
+    {
+        [SerializeField] private string _name;
+        [SerializeField] private Sprite[] _sprite;
+        [SerializeField] private bool _loop;
+        [SerializeField] private bool _allowNextClip;
+        [SerializeField] private UnityEvent _onComplete;
+
+        public string Name => _name;
+        public Sprite[] Sprites => _sprite;
+        public bool Loop => _loop;
+        public bool AllowNextClip => _allowNextClip;
+        public UnityEvent OnComplete => _onComplete;
     }
 }

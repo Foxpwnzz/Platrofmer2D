@@ -118,7 +118,40 @@ MonoBehaviour:
   _tag: Player
   _action:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5417386388807169018}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8033211585302761998}
+        m_MethodName: Apply
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Destroy
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5417386388807169016}
+        m_MethodName: SetClip
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Destroy
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5417386388807169016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,9 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationEvents:
-  - Name: Idle
-    Sprites:
+  _frameRate: 10
+  _clips:
+  - _name: Idle
+    _sprite:
     - {fileID: 3714227102187029162, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: -6202940564662568092, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: -8747976068718324687, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
@@ -141,18 +175,20 @@ MonoBehaviour:
     - {fileID: -860807820763296739, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: -5249288142952506341, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: 1089735312403315716, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
-    Loop: 1
-    onComplete:
+    _loop: 1
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls: []
-  - Name: Destroy
-    Sprites:
+  - _name: Destroy
+    _sprite:
     - {fileID: 6040734443530017722, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: 8167133005111728920, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: 2014349484240403859, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
     - {fileID: 6326803469982491369, guid: 004e79d2568bdb44f8bb8e61f97ce26b, type: 3}
-    Loop: 0
-    onComplete:
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 5417386388807169017}
@@ -166,8 +202,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  _triggerAnimationName: Destroy
-  _frameRate: 10
 --- !u!114 &5417386388807169017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +227,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e2217c85bb9064889212faeb9ab5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
-  _healingAmount: 5
-  _isHealingObject: 1
-  _damageCooldown: 0
+  _hpDelta: 5

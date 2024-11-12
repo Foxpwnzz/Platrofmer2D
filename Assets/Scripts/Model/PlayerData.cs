@@ -11,6 +11,7 @@ namespace Scripts.Model
     {
         public int Coins;
         public int Hp;
+        public int MaxHp; // Максимум hp 
         public bool IsArmed;
     }
 }

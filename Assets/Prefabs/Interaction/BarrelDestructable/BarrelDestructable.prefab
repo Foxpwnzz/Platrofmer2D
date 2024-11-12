@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 1933553650844300077}
   - component: {fileID: 1933553650844300073}
   - component: {fileID: 1933553650844300082}
-  - component: {fileID: 1933553650844300083}
-  - component: {fileID: 1933553650844300079}
-  - component: {fileID: 1933553650844300078}
-  - component: {fileID: 1933553650844300072}
-  - component: {fileID: 1485752534741764393}
+  - component: {fileID: -6285529500155343533}
+  - component: {fileID: -2454703533235804459}
+  - component: {fileID: 7575986404339762582}
+  - component: {fileID: 4859566913067292610}
+  - component: {fileID: 2595305529592731720}
   m_Layer: 0
   m_Name: BarrelDestructable
   m_TagString: Enemy
@@ -135,7 +135,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7305412, y: 0.7767043}
   m_EdgeRadius: 0
---- !u!114 &1933553650844300083
+--- !u!114 &-6285529500155343533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,25 +147,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationEvents:
-  - Name: Idle
-    Sprites:
+  _frameRate: 10
+  _clips:
+  - _name: Idle
+    _sprite:
     - {fileID: 21300000, guid: 6394d60f0202cf049b4bfe8ffd45c565, type: 3}
-    Loop: 0
-    onComplete:
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls: []
-  - Name: Hit
-    Sprites:
+  - _name: Hit
+    _sprite:
     - {fileID: 21300000, guid: 7c90b2a0a100b154e9bf287629a8db72, type: 3}
     - {fileID: 21300000, guid: 6425a5d04f04b7446a1c012e0f3e3805, type: 3}
     - {fileID: 21300000, guid: 03aa2c053e5ae75408b8eedb684b6b67, type: 3}
     - {fileID: 21300000, guid: 52c558ed1fa899d488d977cc4d7fa80d, type: 3}
-    Loop: 0
-    onComplete:
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1933553650844300083}
+        - m_Target: {fileID: -6285529500155343533}
           m_MethodName: SetClip
           m_Mode: 5
           m_Arguments:
@@ -176,17 +179,18 @@ MonoBehaviour:
             m_StringArgument: Idle
             m_BoolArgument: 0
           m_CallState: 2
-  - Name: Destroy
-    Sprites:
+  - _name: Destory
+    _sprite:
     - {fileID: 21300000, guid: 7c90b2a0a100b154e9bf287629a8db72, type: 3}
     - {fileID: 21300000, guid: 6425a5d04f04b7446a1c012e0f3e3805, type: 3}
     - {fileID: 21300000, guid: 03aa2c053e5ae75408b8eedb684b6b67, type: 3}
     - {fileID: 21300000, guid: 66b0d46518bb02544a1add9d32a94a82, type: 3}
-    Loop: 0
-    onComplete:
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1933553650844300072}
+        - m_Target: {fileID: 4859566913067292610}
           m_MethodName: Spawn
           m_Mode: 1
           m_Arguments:
@@ -197,7 +201,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1933553650844300079}
+        - m_Target: {fileID: -2454703533235804459}
           m_MethodName: DestroyObject
           m_Mode: 1
           m_Arguments:
@@ -208,9 +212,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  _triggerAnimationName: 
-  _frameRate: 10
---- !u!114 &1933553650844300079
+--- !u!114 &-2454703533235804459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToDestroy: {fileID: 1933553650844300080}
---- !u!114 &1933553650844300078
+--- !u!114 &7575986404339762582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,12 +237,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc3dd177f03fc0d42a967e16719a5021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
-  _maxHealth: 10
+  _health: 2
   _onDamage:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933553650844300083}
+      - m_Target: {fileID: -6285529500155343533}
         m_MethodName: SetClip
         m_Mode: 5
         m_Arguments:
@@ -251,10 +252,13 @@ MonoBehaviour:
           m_StringArgument: Hit
           m_BoolArgument: 0
         m_CallState: 2
+  _onHeal:
+    m_PersistentCalls:
+      m_Calls: []
   _onDie:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933553650844300083}
+      - m_Target: {fileID: -6285529500155343533}
         m_MethodName: SetClip
         m_Mode: 5
         m_Arguments:
@@ -262,10 +266,21 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Destroy
+          m_StringArgument: Destory
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1933553650844300072
+      - m_Target: {fileID: 2595305529592731720}
+        m_MethodName: Drop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4859566913067292610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 1933553650844300076}
   _prefab: {fileID: 6795217969325431446, guid: 9d9ad0bf10f67e246882a53f92d5e2a7, type: 3}
---- !u!114 &1485752534741764393
+--- !u!114 &2595305529592731720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -293,19 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropItems:
   - item: {fileID: 8325241616703608822, guid: 6a55165e2b6a48e478880ec880fc3f3b, type: 3}
-    minQuantity: 1
-    maxQuantity: 1
-    dropChance: 0.3
-    alwaysDrop: 0
-    enabled: 1
-  - item: {fileID: 4728745999303932781, guid: b00ed19781a0eb34192d7fe918bc6abb, type: 3}
-    minQuantity: 1
-    maxQuantity: 3
-    dropChance: 0.7
-    alwaysDrop: 0
-    enabled: 1
-  - item: {fileID: 4728745999303932781, guid: b00ed19781a0eb34192d7fe918bc6abb, type: 3}
-    minQuantity: 1
+    minQuantity: 0
     maxQuantity: 1
     dropChance: 0
     alwaysDrop: 1

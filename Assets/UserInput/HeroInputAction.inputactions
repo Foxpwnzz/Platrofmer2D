@@ -6,14 +6,6 @@
             "id": "56678234-13fc-47d3-8191-ab86a0224ed0",
             "actions": [
                 {
-                    "name": "SaySomething",
-                    "type": "Button",
-                    "id": "9ac06ce5-9676-48f3-9fdb-11a37e3d0668",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Movement",
                     "type": "Button",
                     "id": "b6bb4d21-d904-4cd0-bbcf-5001940d54b7",
@@ -39,17 +31,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "3c40a7ef-59a8-4630-8727-79dea13efe2c",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SaySomething",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "2D Vector",
                     "id": "bc81e8cc-ea93-4a99-98d4-23cfef71cb50",

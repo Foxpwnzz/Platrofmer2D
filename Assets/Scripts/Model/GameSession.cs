@@ -40,6 +40,7 @@ namespace Scripts.Model
             {
                 Coins = _data.Coins,
                 Hp = _data.Hp,
+                MaxHp = _data.MaxHp, // Сохраняем MaxHp
                 IsArmed = _data.IsArmed
             };
         }
@@ -51,6 +52,7 @@ namespace Scripts.Model
             {
                 _data.Coins = _initialData.Coins;
                 _data.Hp = _initialData.Hp;
+                _data.MaxHp = _initialData.MaxHp; // Восстанавливаем MaxHp
                 _data.IsArmed = _initialData.IsArmed;
             }
         }

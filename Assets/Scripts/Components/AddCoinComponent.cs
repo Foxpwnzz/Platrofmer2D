@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Scripts.Creatures;
 
 namespace Scripts.Components
 {

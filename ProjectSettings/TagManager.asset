@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MovingPlatforms
   - Enemy
+  - Interactable
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - Ground
   - Interactables
   - Trash
-  - 
-  - 
+  - Walls
+  - Hero
   - 
   - 
   - 
