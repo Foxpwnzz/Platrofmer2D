@@ -13,5 +13,6 @@ namespace Scripts.Model
         public int Hp;
         public int MaxHp; // Максимум hp 
         public bool IsArmed;
+        public int SwordCount; // Количество мечей
     }
 }

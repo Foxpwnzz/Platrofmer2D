@@ -1,6 +1,8 @@
 ﻿using Scripts.Components;
 using Scripts.Model;
 using Scripts.Utils;
+using System;
+using System.Collections;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -15,17 +17,23 @@ namespace Scripts.Creatures
         [SerializeField] private float _slamDownVelocity;
         [SerializeField] private float _interactionRadius;
 
+
+        [Space] [Header("Weapon")]
+        [SerializeField] private int _swordCount;
+        [SerializeField] private Cooldown _throwCoolDown;
         [SerializeField] private AnimatorController _armed;
         [SerializeField] private AnimatorController _disarmed;
 
         [Space] [Header("Particles")]
         [SerializeField] private ParticleSystem _hitParticles;
 
+        private static readonly int IsThrowKey = Animator.StringToHash("throw");
+
         private bool _allowDoubleJump;
         private bool _isOnWall;
+        private float _defaultGravityScale;
 
         private GameSession _session;
-        private float _defaultGravityScale;
         private HealthComponent _health;
 
         protected override void Awake()
@@ -39,9 +47,9 @@ namespace Scripts.Creatures
             _session = FindObjectOfType<GameSession>();
             var health = GetComponent<HealthComponent>();
 
-            health.MaxHp = _session.Data.MaxHp; // Устанавливаем максимальное здоровье
+            health.MaxHp = _session.Data.MaxHp;
             health.ModifyHealth(_session.Data.Hp);
-            UpdateHeroWeapon();
+            _swordCount = _session.Data.SwordCount;
         }
 
         public void OnHealthChanged(int currentHealth)
@@ -52,7 +60,7 @@ namespace Scripts.Creatures
         public void IncreaseMaxHealth(int amount)
         {
             _health.MaxHp += amount;
-            _session.Data.MaxHp = _health.MaxHp; // Сохранение нового максимального здоровья
+            _session.Data.MaxHp = _health.MaxHp;
         }
 
         protected override void Update()
@@ -154,6 +162,8 @@ namespace Scripts.Creatures
 
         public void ArmHero()
         {
+            _session.Data.SwordCount++;
+            _swordCount = _session.Data.SwordCount;
             _session.Data.IsArmed = true;
             UpdateHeroWeapon();
         }
@@ -161,6 +171,36 @@ namespace Scripts.Creatures
         private void UpdateHeroWeapon()
         {
             Animator.runtimeAnimatorController = _session.Data.IsArmed ? _armed : _disarmed;
+        }
+
+        public void OnDoThrow()
+        {
+            if (_swordCount > 0)
+            {
+                _swordCount--;
+                _session.Data.SwordCount = _swordCount;
+                if (_swordCount == 0) 
+                {
+                    _session.Data.IsArmed = false;
+                    UpdateHeroWeapon(); 
+                }
+                _particles.Spawn("Throw");
+            }
+        }
+
+        public void Throw()
+        {
+            if (!_session.Data.IsArmed || _swordCount <= 0)
+            {
+                Debug.LogWarning("Нельзя бросить меч, его нет!");
+                return;
+            }
+
+            if (_throwCoolDown.IsReady)
+            {
+                Animator.SetTrigger(IsThrowKey);
+                _throwCoolDown.Reset();
+            }
         }
     }
 }

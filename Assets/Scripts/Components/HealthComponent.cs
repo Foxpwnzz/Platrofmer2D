@@ -28,6 +28,7 @@ namespace Scripts.Components
 
         public void ModifyHealth(int healthDelta)
         {
+            if (_health <= 0) return;
             if (_isInvulnerable && healthDelta < 0) return;
             _health = Mathf.Clamp(_health + healthDelta, 0, _maxHp); // Ограничиваем текущее здоровье
 

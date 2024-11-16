@@ -41,7 +41,8 @@ namespace Scripts.Model
                 Coins = _data.Coins,
                 Hp = _data.Hp,
                 MaxHp = _data.MaxHp, // Сохраняем MaxHp
-                IsArmed = _data.IsArmed
+                IsArmed = _data.IsArmed,
+                SwordCount = _data.SwordCount // Сохраняем количество мечей
             };
         }
 
@@ -54,6 +55,7 @@ namespace Scripts.Model
                 _data.Hp = _initialData.Hp;
                 _data.MaxHp = _initialData.MaxHp; // Восстанавливаем MaxHp
                 _data.IsArmed = _initialData.IsArmed;
+                _data.SwordCount = _initialData.SwordCount; // Восстанавливаем количество мечей
             }
         }
     }

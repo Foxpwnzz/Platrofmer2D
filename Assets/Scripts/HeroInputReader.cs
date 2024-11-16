@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using Scripts.Creatures;
+using UnityEngine.Rendering;
 
 namespace Scripts
 {
@@ -17,7 +18,7 @@ namespace Scripts
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.canceled)
+            if (context.performed)
             {
                 _hero.Interact();
             }
@@ -25,9 +26,17 @@ namespace Scripts
 
         public void OnAttack(InputAction.CallbackContext context)
         {
-            if (context.canceled)
+            if (context.performed)
             {
                 _hero.Attack();
+            }
+        }
+
+        public void OnThrow(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _hero.Throw();
             }
         }
     }
