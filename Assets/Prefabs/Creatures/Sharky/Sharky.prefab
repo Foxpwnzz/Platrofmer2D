@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 2915572692677139402}
   - component: {fileID: 2915572692677139403}
   - component: {fileID: 2915572692677139400}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sharky
   m_TagString: Enemy
   m_Icon: {fileID: 0}

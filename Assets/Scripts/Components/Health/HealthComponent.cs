@@ -11,7 +11,7 @@ namespace Scripts.Components.Health
         [SerializeField] private float _invulnerability = 1.0f; // Время неуязвимости
         [SerializeField] private UnityEvent _onDamage;
         [SerializeField] private UnityEvent _onHeal;
-        [SerializeField] private UnityEvent _onDie;
+        [SerializeField] public UnityEvent _onDie;
 
         private bool _isInvulnerable;
 
@@ -66,6 +66,11 @@ namespace Scripts.Components.Health
         public void AddOnDieListener(UnityAction action)
         {
             _onDie.AddListener(action);
+        }
+
+        private void OnDestroy()
+        {
+            _onDie.RemoveAllListeners();
         }
     }
 } 

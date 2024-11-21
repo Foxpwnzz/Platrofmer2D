@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 964937304}
   - component: {fileID: 964937305}
   - component: {fileID: 3068053226750608830}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: InteractionCheck
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 4768180608494633370}
   - component: {fileID: 2133321805951883022}
   - component: {fileID: 3329666036142517139}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +658,7 @@ GameObject:
   - component: {fileID: 1103301620616519654}
   - component: {fileID: 2915572693050219065}
   - component: {fileID: 326812487}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -694,7 +694,7 @@ MonoBehaviour:
   _radius: 0.5
   _mask:
     serializedVersion: 2
-    m_Bits: 3895
+    m_Bits: 73984
   _onOverlab:
     m_PersistentCalls:
       m_Calls:
@@ -735,7 +735,7 @@ GameObject:
   - component: {fileID: 8634175652045317941}
   - component: {fileID: 9103642429988663002}
   - component: {fileID: 6198541303049598147}
-  m_Layer: 12
+  m_Layer: 15
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
