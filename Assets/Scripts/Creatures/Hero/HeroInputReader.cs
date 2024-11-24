@@ -32,9 +32,22 @@ namespace Scripts.Creatures.Hero
 
         public void OnThrow(InputAction.CallbackContext context)
         {
+            if (context.started)
+            {
+                _hero.StartThrowing();
+            }
+
+            if (context.canceled)
+            {
+                _hero.PerformThrowing();
+            }
+        }
+
+        public void OnUseHealth(InputAction.CallbackContext context)
+        {
             if (context.performed)
             {
-                _hero.Throw();
+                _hero.UseHealthPotion();
             }
         }
     }

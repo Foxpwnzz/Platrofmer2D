@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4053917833550078190}
   - component: {fileID: -557667456821353473}
   - component: {fileID: 4728745999303932776}
-  - component: {fileID: 2058115878526902568}
   - component: {fileID: -1094099022707647635}
+  - component: {fileID: 7266402139427264661}
   m_Layer: 14
   m_Name: SilverCoinParticle
   m_TagString: Untagged
@@ -185,19 +185,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToDestroy: {fileID: 4728745999303932781}
---- !u!114 &2058115878526902568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4728745999303932781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf31c7f2b20deb04aadafe03e2266571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _numCoins: 1
 --- !u!114 &-1094099022707647635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,9 +212,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2058115878526902568}
+      - m_Target: {fileID: 7266402139427264661}
         m_MethodName: Add
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -247,3 +234,17 @@ MonoBehaviour:
           m_StringArgument: Destroy
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7266402139427264661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4728745999303932781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224613aff63185d4d9493b4ddffec0ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: Coin
+  _count: 1

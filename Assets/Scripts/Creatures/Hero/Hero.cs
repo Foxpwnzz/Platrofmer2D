@@ -4,6 +4,9 @@ using UnityEditor.Animations;
 using UnityEngine;
 using Scripts.Components.ColliderBased;
 using Scripts.Components.Health;
+using System;
+using System.Collections;
+using Scripts.Components.LevelManegement;
 
 namespace Scripts.Creatures.Hero
 {
@@ -11,19 +14,20 @@ namespace Scripts.Creatures.Hero
     {
         [SerializeField] private CheckCircleOverlap _interactionCheck;
         [SerializeField] private LayerCheck _wallCheck;
-
         [SerializeField] private float _slamDownVelocity;
+        [SerializeField] private ProbabilityDropComponent _hitDrop;
 
         [Space]
         [Header("Weapon")]
-        [SerializeField] private int _swordCount;
         [SerializeField] private Cooldown _throwCoolDown;
         [SerializeField] private AnimatorController _armed;
         [SerializeField] private AnimatorController _disarmed;
 
         [Space]
-        [Header("Particles")]
-        [SerializeField] private ParticleSystem _hitParticles;
+        [Header("Super throw")]
+        [SerializeField] private Cooldown _superThrowCooldown;
+        [SerializeField] private int _superThrowParticles;
+        [SerializeField] private float _superThrowDelay;
 
         private static readonly int IsThrowKey = Animator.StringToHash("throw");
         private static readonly int IsOnWall = Animator.StringToHash("is-on-wall");
@@ -31,9 +35,12 @@ namespace Scripts.Creatures.Hero
         private bool _allowDoubleJump;
         private bool _isOnWall;
         private float _defaultGravityScale;
-
+        private bool _superThrow;
         private GameSession _session;
         private HealthComponent _health;
+
+        private int CoinsCount => _session.Data.Inventory.Count("Coin");
+        private int SwordCount => _session.Data.Inventory.Count("Sword");
 
         protected override void Awake()
         {
@@ -44,12 +51,26 @@ namespace Scripts.Creatures.Hero
         private void Start()
         {
             _session = FindObjectOfType<GameSession>();
-            var health = GetComponent<HealthComponent>();
+            _health = GetComponent<HealthComponent>();
+            _session.Data.Inventory.OnChanged += OnInventoryChanged;
 
-            health.MaxHp = _session.Data.MaxHp;
-            health.ModifyHealth(_session.Data.Hp);
-            _swordCount = _session.Data.SwordCount;
+
+            _health.MaxHp = _session.Data.MaxHp;
+            _health.ModifyHealth(_session.Data.Hp);
+            UpdateHeroWeapon();
         }
+
+        private void OnDestroy()
+        {
+            _session.Data.Inventory.OnChanged -= OnInventoryChanged;
+        }
+
+        private void OnInventoryChanged(string id, int value)
+        {
+            if (id == "Sword")
+                UpdateHeroWeapon();
+        }
+
 
         public void OnHealthChanged(int currentHealth)
         {
@@ -107,19 +128,18 @@ namespace Scripts.Creatures.Hero
                 return _jumpSpeed;
 
             }
-
             return base.CalculateJumpVelocity(yVelocity);
         }
 
-        public void AddCoins(int coins)
+        public void AddInInvetory(string id, int value)
         {
-            _session.Data.Coins += coins;
-            Debug.Log("Монеты добавлены: " + coins + ". Всего монет: " + _session.Data.Coins);
+            _session.Data.Inventory.Add(id, value);
         }
+
         public override void TakeDamage()
         {
             base.TakeDamage();
-            if (_session.Data.Coins > 0)
+            if (CoinsCount > 0)
             {
                 SpawnCoins();
             }
@@ -127,15 +147,11 @@ namespace Scripts.Creatures.Hero
 
         private void SpawnCoins()
         {
-            var numCoinsToDispose = Mathf.Min(_session.Data.Coins, 5);
-            _session.Data.Coins -= numCoinsToDispose;
+            var numCoinsToDispose = Mathf.Min(CoinsCount, 5);
+            _session.Data.Inventory.Remove("Coin", numCoinsToDispose);
 
-            var burst = _hitParticles.emission.GetBurst(0);
-            burst.count = numCoinsToDispose;
-            _hitParticles.emission.SetBurst(0, burst);
-
-            _hitParticles.gameObject.SetActive(true);
-            _hitParticles.Play();
+            _hitDrop.SetCount(numCoinsToDispose);
+            _hitDrop.CalculateDrop();
         }
 
         public void Interact()
@@ -157,50 +173,67 @@ namespace Scripts.Creatures.Hero
 
         public override void Attack()
         {
-            if (!_session.Data.IsArmed) return;
-            base.Attack();
-        }
+            if (SwordCount <= 0) return;
 
-        public void ArmHero()
-        {
-            _session.Data.SwordCount++;
-            _swordCount = _session.Data.SwordCount;
-            _session.Data.IsArmed = true;
-            UpdateHeroWeapon();
+            base.Attack();
         }
 
         private void UpdateHeroWeapon()
         {
-            Animator.runtimeAnimatorController = _session.Data.IsArmed ? _armed : _disarmed;
+            Animator.runtimeAnimatorController = SwordCount > 0 ? _armed : _disarmed;
         }
 
         public void OnDoThrow()
         {
-            if (_swordCount > 0)
+            if (_superThrow)
             {
-                _swordCount--;
-                _session.Data.SwordCount = _swordCount;
-                if (_swordCount == 0)
-                {
-                    _session.Data.IsArmed = false;
-                    UpdateHeroWeapon();
-                }
-                _particles.Spawn("Throw");
+                var numThrows = Math.Min(_superThrowParticles, SwordCount - 1);
+                StartCoroutine(DoSuperThrow(numThrows));
+            }
+            else
+            {
+                ThrowAndRemoveFromInventory();
+            }
+            _superThrow = false;
+        }
+
+        private IEnumerator DoSuperThrow(int numThrows)
+        {
+            for (int i = 0; i < numThrows; i++)
+            {
+                ThrowAndRemoveFromInventory();
+                yield return new WaitForSeconds(_superThrowDelay);
             }
         }
 
-        public void Throw()
+        private void ThrowAndRemoveFromInventory()
         {
-            if (!_session.Data.IsArmed || _session.Data.SwordCount <= 0)
-            {
-                Debug.LogWarning("Нельзя бросить меч, его нет!");
-                return;
-            }
+            _particles.Spawn("Throw");
+            _session.Data.Inventory.Remove("Sword", 1);
+        }
 
-            if (_throwCoolDown.IsReady)
+        public void StartThrowing()
+        {
+            _superThrowCooldown.Reset();
+        }
+
+        public void PerformThrowing()
+        {
+            if (!_throwCoolDown.IsReady || SwordCount < 1) return;
+
+            if (_superThrowCooldown.IsReady) _superThrow = true;
+
+            Animator.SetTrigger(IsThrowKey);
+            _throwCoolDown.Reset();
+        }
+
+        internal void UseHealthPotion()
+        {
+            var potionCount = _session.Data.Inventory.Count("HealthPotion");
+            if (potionCount > 0)
             {
-                Animator.SetTrigger(IsThrowKey);
-                _throwCoolDown.Reset();
+                _health.ModifyHealth(5);
+                _session.Data.Inventory.Remove("HealthPotion", 1);
             }
         }
     }

@@ -33,7 +33,7 @@ namespace Scripts.Components.LevelManegement
             {
                 var random = UnityEngine.Random.value * total;
                 var current = 0f;
-                foreach(var dropData in sortedDrop)
+                foreach (var dropData in sortedDrop)
                 {
                     current += dropData.Probability;
                     if (current >= random)
@@ -46,6 +46,11 @@ namespace Scripts.Components.LevelManegement
             }
 
             _onDropCalculated?.Invoke(itemsToDrop);
+        }
+
+        public void SetCount(int count)
+        {
+            _count = count;
         }
 
         [Serializable]

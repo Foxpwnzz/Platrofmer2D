@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2252891375259818320}
   - component: {fileID: 857789914177970678}
   - component: {fileID: 475402157740320951}
-  - component: {fileID: 9153289764805789394}
   - component: {fileID: 167551216914022887}
   - component: {fileID: 8920571270714236148}
+  - component: {fileID: 3296087525291203891}
   m_Layer: 0
   m_Name: StuckedSword
   m_TagString: Weapon
@@ -131,8 +131,8 @@ MonoBehaviour:
   _action:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9153289764805789394}
-        m_MethodName: ArmHero
+      - m_Target: {fileID: 3296087525291203891}
+        m_MethodName: Add
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -166,18 +166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToDestroy: {fileID: 1297655354696269138}
---- !u!114 &9153289764805789394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297655354696269138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2296368d1e66a5440b29dafc1230808e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &167551216914022887
 Rigidbody2D:
   serializedVersion: 4
@@ -215,3 +203,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3125
+--- !u!114 &3296087525291203891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297655354696269138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224613aff63185d4d9493b4ddffec0ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: Sword
+  _count: 1

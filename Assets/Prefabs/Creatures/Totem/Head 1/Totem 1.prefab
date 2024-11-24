@@ -155,8 +155,8 @@ GameObject:
   - component: {fileID: 2785706310464514417}
   - component: {fileID: 2785706310464514422}
   - component: {fileID: 2785706310464514423}
-  m_Layer: 16
-  m_Name: Head 1
+  m_Layer: 13
+  m_Name: Totem 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

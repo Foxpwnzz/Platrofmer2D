@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 8325241616703608826}
   - component: {fileID: -8708726053897544782}
   - component: {fileID: 8325241616703608825}
-  - component: {fileID: -3412250406480505972}
   - component: {fileID: 3565825343122118697}
-  m_Layer: 0
+  - component: {fileID: 4221957958338545911}
+  m_Layer: 14
   m_Name: GoldCoinMovements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,9 +156,9 @@ MonoBehaviour:
           m_StringArgument: Destroy
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: -3412250406480505972}
+      - m_Target: {fileID: 4221957958338545911}
         m_MethodName: Add
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -238,19 +238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToDestroy: {fileID: 8325241616703608822}
---- !u!114 &-3412250406480505972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8325241616703608822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf31c7f2b20deb04aadafe03e2266571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _numCoins: 10
 --- !u!114 &3565825343122118697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,3 +252,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _frequency: 6
   _amplitute: 0.1
+  _randomize: 0
+--- !u!114 &4221957958338545911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325241616703608822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224613aff63185d4d9493b4ddffec0ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: Coin
+  _count: 10

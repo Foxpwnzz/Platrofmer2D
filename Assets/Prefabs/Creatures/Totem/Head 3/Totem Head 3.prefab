@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2808263301669579595}
   - component: {fileID: 2808263301669579594}
   - component: {fileID: 2808263301669579589}
-  m_Layer: 16
+  m_Layer: 13
   m_Name: Totem Head 3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.550929, y: -0.15681171}
+  m_Offset: {x: -2.550929, y: -0.22498393}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -408,7 +408,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.9025545, y: 0.6863766}
+  m_Size: {x: 5.9025545, y: 0.55003214}
   m_EdgeRadius: 0
 --- !u!114 &2808263302317964491
 MonoBehaviour:

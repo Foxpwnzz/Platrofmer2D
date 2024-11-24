@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Scripts.Model.Data;
 
 
 namespace Scripts.Model

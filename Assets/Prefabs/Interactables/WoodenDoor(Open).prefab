@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 5486693046466653809}
   - component: {fileID: 5486693046466653808}
   - component: {fileID: 5486693046466653811}
-  - component: {fileID: 5486693046306709355}
+  - component: {fileID: 9100488661289793932}
+  - component: {fileID: 4005177325089940860}
   - component: {fileID: 5486693046306709350}
+  - component: {fileID: 3927441666980720475}
   m_Layer: 0
   m_Name: WoodenDoor(Open)
   m_TagString: Interactable
@@ -100,7 +102,7 @@ CircleCollider2D:
   m_Offset: {x: 0.31455645, y: -0.3583247}
   serializedVersion: 2
   m_Radius: 0.14668362
---- !u!114 &5486693046306709355
+--- !u!114 &9100488661289793932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,16 +111,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 5486693046466653815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 225514a7fa6e8a9429738a415fe9a105, type: 3}
+  m_Script: {fileID: 11500000, guid: c51d87e81a7ee9848a3ef8376f153c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tag: Player
+  _frameRate: 10
+  _clips:
+  - _name: idle
+    _sprite:
+    - {fileID: 21300000, guid: 240ca3f70b60ccc48be8196912b481b5, type: 3}
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  - _name: open
+    _sprite:
+    - {fileID: 21300000, guid: 42886cec612e44c46aab27db9507c975, type: 3}
+    - {fileID: 21300000, guid: d2ffe9a569e53f748b89bd11f41acf64, type: 3}
+    - {fileID: 21300000, guid: 5214265581fe7974d9ba8076f5a43559, type: 3}
+    - {fileID: 21300000, guid: 0a5d643260ffbd540886ceb31355f861, type: 3}
+    _loop: 0
+    _allowNextClip: 0
+    _onComplete:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5486693046306709350}
+          m_MethodName: Teleport
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &4005177325089940860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5486693046466653815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d430b05bf701b41aaf4b85f10bb6c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _action:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5486693046306709350}
-        m_MethodName: Teleport
-        m_Mode: 0
+      - m_Target: {fileID: 3927441666980720475}
+        m_MethodName: Check
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -142,3 +187,49 @@ MonoBehaviour:
   _destTransform: {fileID: 0}
   _alphaTime: 1
   _moveTime: 1
+--- !u!114 &3927441666980720475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5486693046466653815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637e96b226a69a64b8d0ab6f7a7a8e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _required:
+  - Id: Coin
+    Value: 2
+  - Id: Key
+    Value: 1
+  _removeAfterUse: 1
+  _onSuccess:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5486693046466653811}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 9100488661289793932}
+        m_MethodName: SetClip
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: open
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onFail:
+    m_PersistentCalls:
+      m_Calls: []
