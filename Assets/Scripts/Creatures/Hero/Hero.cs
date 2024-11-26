@@ -123,8 +123,8 @@ namespace Scripts.Creatures.Hero
         {
             if (!IsGrounded && _allowDoubleJump && !_isOnWall)
             {
-                _particles.Spawn("Jump");
                 _allowDoubleJump = false;
+                DoJumpVfx();
                 return _jumpSpeed;
 
             }
@@ -208,6 +208,7 @@ namespace Scripts.Creatures.Hero
 
         private void ThrowAndRemoveFromInventory()
         {
+            Sounds.Play("Range");
             _particles.Spawn("Throw");
             _session.Data.Inventory.Remove("Sword", 1);
         }
