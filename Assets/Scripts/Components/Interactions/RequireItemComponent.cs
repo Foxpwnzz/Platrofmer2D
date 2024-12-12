@@ -1,4 +1,5 @@
 ﻿using Scripts.Model;
+using Scripts.Model.Data;
 using UnityEngine;
 using UnityEngine.Events;
 using static Scripts.Model.Data.InventoryData;

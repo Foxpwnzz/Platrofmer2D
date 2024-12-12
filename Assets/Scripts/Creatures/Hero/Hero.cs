@@ -7,10 +7,11 @@ using Scripts.Components.Health;
 using System;
 using System.Collections;
 using Scripts.Components.LevelManegement;
+using Scripts.Model.Data;
 
 namespace Scripts.Creatures.Hero
 {
-    public class Hero : Creature
+    public class Hero : Creature, ICanAddInInventory
     {
         [SerializeField] private CheckCircleOverlap _interactionCheck;
         [SerializeField] private LayerCheck _wallCheck;
@@ -131,7 +132,7 @@ namespace Scripts.Creatures.Hero
             return base.CalculateJumpVelocity(yVelocity);
         }
 
-        public void AddInInvetory(string id, int value)
+        public void AddInInventory(string id, int value)
         {
             _session.Data.Inventory.Add(id, value);
         }
